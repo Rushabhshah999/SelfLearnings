@@ -73,6 +73,7 @@
     <operation name="savePerson">
       <soap:operation soapAction="http://localhost:8080/SpringExample-1.0-SNAPSHOT/personService/"/>
       <input>
+         <soap:header message="tns:HolidayHeader" part="HolidayHeader" use="literal" />
         <soap:body use="literal"/>
       </input>
       <output>
