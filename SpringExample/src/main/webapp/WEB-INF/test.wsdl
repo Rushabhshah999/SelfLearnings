@@ -1,0 +1,62 @@
+<definitions name="HelloService" targetNamespace="http://www.springbyexample.org/person.wsdl" 
+xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+xmlns:tns="http://www.springbyexample.org/person.wsdl" 
+xmlns:xsd1="http://www.springbyexample.org/person/schema/beans" 
+xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <schema targetNamespace="http://www.springbyexample.org/person/schema/beans">
+      <element name="get-persons-request">
+        <complexType>
+          <all>
+            <element name="name" type="string" />
+          </all>
+        </complexType>
+      </element>
+      <element name="person-response">
+        <complexType>
+          <all>
+            <element name="person" type="person" minOccurs="0" maxOccurs="unbounded"/>
+          </all>
+        </complexType>
+      </element>
+      <complexType name="person">
+        <all>
+          <element name="id" type="int" />
+          <element name="first-name" type="string" />
+          <element name="last-name" type="string" />
+        </all>
+      </complexType>
+    </schema>
+  </types>
+  <message name="get-persons-request">
+    <part name="body" element="xsd1:get-persons-request"/>
+  </message>
+  <message name="person-response">
+    <part name="body" element="xsd1:person-response"/>
+  </message>
+  <portType name="Person_PortType">
+    <operation name="getPersons">
+      <input message="tns:get-persons-request"/>
+      <output message="tns:person-response"/>
+    </operation>
+  </portType>
+  <binding name="PersonSoap11" type="tns:Person_PortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="getPersons">
+      <soap:operation soapAction="http://localhost:8080/SpringExample-1.0-SNAPSHOT/personService/"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="PersonService">
+    <documentation>WSDL File for HelloService</documentation>
+    <port binding="tns:PersonSoap11" name="PersonSoap11">
+      <soap:address location="http://localhost:8080/SpringExample-1.0-SNAPSHOT/personService/" />
+    </port>
+  </service>
+</definitions>
